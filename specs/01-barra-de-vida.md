@@ -1,6 +1,6 @@
 # SPEC 01 — Barra de vida en la escena de batalla
 
-> **Estado:** Aprobado
+> **Estado:** Implementado
 > **Depende de:** ninguna
 > **Fecha:** 2026-10-15
 > **Objetivo:** Mostrar dos Charizard enfrentados sobre el bosque, cada uno con una barra de vida que baja al recibir daño y un estado de derrota visible al llegar a cero.
@@ -71,7 +71,7 @@ Convenciones:
 ## Plan de implementación
 
 1. Crear `index.html` con el canvas de 1376×768 e `image-rendering: pixelated`, que carga `src/main.js` como `type="module"` y declara un favicon vacío (`<link rel="icon" href="data:,">`) para que el navegador no pida `/favicon.ico` y no aparezca un 404 en la consola. En `src/main.js`, cargar `BACKGROUNDS.fondo1.src` y dibujarlo escalado al canvas. Prueba manual: `python -m http.server 8000` y abrir `http://localhost:8000`; se ve el bosque.
-2. Crear `src/render.js` con `drawBackground` y `drawCharizard(ctx, images, c, nowMs)`. Usa `getFrame` y `frameIndexAt` de `spritesheet.js` y ancla por `shadow`. En `src/main.js`, cargar las hojas `CHARIZARD.idle|hurt|sleep.src.anim` y arrancar un loop con `requestAnimationFrame`. Prueba manual: dos Charizard en `idle` mirándose en `PLAYER_FEET` y `RIVAL_FEET`.
+2. Crear `src/render.js` con `drawBackground` y `drawCharizard(ctx, images, c, nowMs, scale)`; `src/main.js` le pasa `SCALE`. Usa `getFrame` y `frameIndexAt` de `spritesheet.js` y ancla por `shadow`. En `src/main.js`, cargar las hojas `CHARIZARD.idle|hurt|sleep.src.anim` y arrancar un loop con `requestAnimationFrame`. Prueba manual: dos Charizard en `idle` mirándose en `PLAYER_FEET` y `RIVAL_FEET`.
 3. Crear `src/battle.js` con `createCombatant`, `currentAnim` y `hpColor`. Agregar `drawHpBar` en `src/render.js`: Jugador arriba a la izquierda, Rival arriba a la derecha. Prueba manual: ambas barras verdes con `PS 100/100`.
 4. Agregar `applyDamage(c, amount, nowMs)` en `src/battle.js`: resta, recorta a 0, guarda `hurtStartMs` y no hace nada si ya está derrotado. En `src/main.js`, escuchar `keydown` por `event.code` (`KeyA` → player, `KeyL` → rival) e ignorar `event.repeat`. Comentar en el código que son controles de prueba temporales que reemplaza el spec 02. Agregar `drawLegend`. Prueba manual: `A` baja al Jugador a `PS 90/100` y reproduce `hurt`.
 5. Marcar `defeated` al llegar a 0 PS. En `src/render.js`, dibujar `sleep` con `globalAlpha` 0.5 y agregar `drawDefeatedLabel` con `DERROTADO` sobre el Charizard. Prueba manual: 10 pulsaciones de `A` dejan al Jugador derrotado.
