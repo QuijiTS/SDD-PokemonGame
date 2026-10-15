@@ -22,6 +22,20 @@ export function drawCharizard(ctx, images, c, nowMs, scale) {
   ctx.drawImage(images[anim], f.sx, f.sy, f.sw, f.sh, dx, dy, f.sw * scale, f.sh * scale);
 }
 
+export function drawLegend(ctx) {
+  const text = 'A: dañar al Jugador · L: dañar al Rival';
+  ctx.font = '18px sans-serif';
+  ctx.textBaseline = 'bottom';
+  ctx.textAlign = 'center';
+  const x = ctx.canvas.width / 2;
+  const y = ctx.canvas.height - 16;
+  const w = ctx.measureText(text).width + 32;
+  ctx.fillStyle = 'rgba(20, 20, 30, 0.8)';
+  ctx.fillRect(x - w / 2, y - 32, w, 40);
+  ctx.fillStyle = '#fff';
+  ctx.fillText(text, x, y);
+}
+
 // Jugador arriba a la izquierda, Rival arriba a la derecha.
 export function drawHpBar(ctx, c) {
   const x = c.id === 'player' ? PANEL_MARGIN : ctx.canvas.width - PANEL_MARGIN - PANEL_W;

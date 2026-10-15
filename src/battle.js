@@ -4,6 +4,12 @@ export function createCombatant({ id, dir, feet, maxHp }) {
   return { id, dir, feet, maxHp, hp: maxHp, defeated: false, hurtStartMs: -Infinity };
 }
 
+export function applyDamage(c, amount, nowMs) {
+  if (c.defeated) return;
+  c.hp = Math.max(0, c.hp - amount);
+  c.hurtStartMs = nowMs;
+}
+
 export function currentAnim(c, nowMs) {
   if (c.defeated) return 'sleep';
   if (nowMs - c.hurtStartMs < CHARIZARD.hurt.totalMs) return 'hurt';
