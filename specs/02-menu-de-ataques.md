@@ -17,7 +17,7 @@ El SPEC 01 dejó la vida y la derrota funcionando, pero el daño solo se provoca
   - Arañazo: 10 de daño, 15 PP.
   - Ascuas: 15 de daño, 10 PP.
   - Garra Dragón: 20 de daño, 8 PP.
-  - Lanzallamas: 30 de daño, 5 PP.
+  - Lanzallamas: 30 de daño, 3 PP.
 - Selección con las teclas de la fila superior `1`, `2`, `3` y `4` (`event.code` `Digit1`…`Digit4`).
 - Cada uso gasta 1 PP al pulsar la tecla.
 - Un ataque con 0 PP se dibuja en gris y pulsarlo no hace nada.
@@ -48,7 +48,7 @@ export const MOVES = [
   { name: 'Arañazo',      damage: 10, maxPp: 15, anim: 'jab' },
   { name: 'Ascuas',       damage: 15, maxPp: 10, anim: 'charge' },
   { name: 'Garra Dragón', damage: 20, maxPp: 8,  anim: 'swing' },
-  { name: 'Lanzallamas',  damage: 30, maxPp: 5,  anim: 'shoot' },
+  { name: 'Lanzallamas',  damage: 30, maxPp: 3,  anim: 'shoot' },
 ];
 ```
 
@@ -79,14 +79,14 @@ Convenciones:
 ## Criterios de aceptación
 
 - [ ] La página carga desde `http://localhost:8000` sin errores en la consola.
-- [ ] Al cargar, el menú muestra `1 Arañazo  PP 15/15`, `2 Ascuas  PP 10/10`, `3 Garra Dragón  PP 8/8` y `4 Lanzallamas  PP 5/5`.
+- [ ] Al cargar, el menú muestra `1 Arañazo  PP 15/15`, `2 Ascuas  PP 10/10`, `3 Garra Dragón  PP 8/8` y `4 Lanzallamas  PP 3/3`.
 - [ ] Pulsar `1` hace que el Jugador reproduzca `jab`, deja al Rival en `PS 90/100` con `hurt` y deja Arañazo en `PP 14/15`.
 - [ ] El daño al Rival aparece en el momento del impacto de la animación y no al pulsar la tecla.
 - [ ] Usar un ataque no cambia la vida del Jugador.
 - [ ] Pulsar `2`, `3` y `4` reproduce `charge`, `swing` y `shoot`, y resta 15, 20 y 30 PS respectivamente.
 - [ ] Pulsar cualquier tecla `1`–`4` durante la animación de un ataque no gasta PP ni hace daño extra.
 - [ ] Mantener `1` presionada un segundo gasta solo 1 PP.
-- [ ] Al llegar a `PP 0/5`, Lanzallamas se ve en gris y pulsar `4` no cambia nada.
+- [ ] Al llegar a `PP 0/3`, Lanzallamas se ve en gris y pulsar `4` no cambia nada.
 - [ ] Con el Rival derrotado, pulsar `1`–`4` no gasta PP.
 - [ ] Pulsar `1` y derrotar al Rival con `L` antes del impacto: la animación termina, no hay daño extra y Arañazo queda en `PP 14/15`.
 - [ ] Con el Jugador derrotado (por `A`), pulsar `1`–`4` no hace nada.
@@ -104,7 +104,8 @@ Convenciones:
 - **Sí:** teclas `1`–`4` de la fila superior (`Digit1`…`Digit4`). Mismo estilo que `A`/`L`, simple y verificable.
 - **No:** flechas + Enter ni mouse. Más estado y más código para el mismo resultado.
 - **No:** teclado numérico. Se mantiene un único juego de teclas para atacar.
-- **Sí:** cuatro ataques con daño fijo (10/15/20/30) y PP inversos al daño (15/10/8/5). Determinista y fácil de verificar.
+- **Sí:** cuatro ataques con daño fijo (10/15/20/30) y PP inversos al daño (15/10/8/3). Determinista y fácil de verificar.
+- **Sí:** Lanzallamas con 3 PP en lugar de 5. Con 5 PP y 30 de daño, el Rival (100 PS) cae antes de agotar Lanzallamas, así que el criterio del ataque en gris no se podía comprobar.
 - **No:** daño aleatorio. Hace la prueba impredecible.
 - **Sí:** el PP se gasta al pulsar, no al impactar. Un ataque iniciado ya consumió su uso.
 - **Sí:** si el Rival queda derrotado antes del impacto, el ataque termina sin daño y el PP no se devuelve. Evita lógica de reembolso.
