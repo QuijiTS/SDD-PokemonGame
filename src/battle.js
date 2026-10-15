@@ -8,6 +8,7 @@ export function applyDamage(c, amount, nowMs) {
   if (c.defeated) return;
   c.hp = Math.max(0, c.hp - amount);
   c.hurtStartMs = nowMs;
+  if (c.hp === 0) c.defeated = true;
 }
 
 export function currentAnim(c, nowMs) {

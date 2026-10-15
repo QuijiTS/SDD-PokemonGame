@@ -19,7 +19,25 @@ export function drawCharizard(ctx, images, c, nowMs, scale) {
   const f = getFrame(anim, c.dir, frameIndexAt(anim, elapsed, anim !== 'hurt'));
   const dx = c.feet.x - f.shadow.x * scale;
   const dy = c.feet.y - f.shadow.y * scale;
+  ctx.save();
+  if (c.defeated) ctx.globalAlpha = 0.5;
   ctx.drawImage(images[anim], f.sx, f.sy, f.sw, f.sh, dx, dy, f.sw * scale, f.sh * scale);
+  ctx.restore();
+}
+
+// Texto DERROTADO justo encima del Charizard tumbado (borde superior del frame de sleep).
+export function drawDefeatedLabel(ctx, c, scale) {
+  if (!c.defeated) return;
+  const f = getFrame('sleep', c.dir, 0);
+  const top = c.feet.y - f.shadow.y * scale;
+  ctx.font = 'bold 32px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'bottom';
+  ctx.lineWidth = 6;
+  ctx.strokeStyle = '#000';
+  ctx.strokeText('DERROTADO', c.feet.x, top - 8);
+  ctx.fillStyle = '#e5483b';
+  ctx.fillText('DERROTADO', c.feet.x, top - 8);
 }
 
 export function drawLegend(ctx) {
