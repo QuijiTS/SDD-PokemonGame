@@ -19,12 +19,12 @@ El repo solo tiene assets, `spritesheet.js` con las coordenadas ya calculadas y 
 - 100 PS iniciales y 10 de daño fijo por golpe.
 - Animación `hurt` al recibir daño.
 - Estado derrotado al llegar a 0 PS: animación `sleep`, semitransparente y texto `DERROTADO` encima.
-- Controles de prueba temporales: `A` daña al Jugador y `L` daña al Rival.
+- Controles de prueba: `A` daña al Jugador y `L` daña al Rival.
 - Leyenda en pantalla: `A: dañar al Jugador · L: dañar al Rival`.
 
 **Fuera de alcance (para specs futuros):**
 
-- Menú para elegir ataques (spec 02, reemplaza las teclas `A` y `L`).
+- Menú para elegir ataques (spec 02). Las teclas `A` y `L` se mantienen como controles de prueba junto al menú de ataques.
 - Movimiento de los Charizard por la pantalla.
 - Que el rival decida o responda por su cuenta.
 - Pantallas de inicio o de final.
@@ -73,7 +73,7 @@ Convenciones:
 1. Crear `index.html` con el canvas de 1376×768 e `image-rendering: pixelated`, que carga `src/main.js` como `type="module"` y declara un favicon vacío (`<link rel="icon" href="data:,">`) para que el navegador no pida `/favicon.ico` y no aparezca un 404 en la consola. En `src/main.js`, cargar `BACKGROUNDS.fondo1.src` y dibujarlo escalado al canvas. Prueba manual: `python -m http.server 8000` y abrir `http://localhost:8000`; se ve el bosque.
 2. Crear `src/render.js` con `drawBackground` y `drawCharizard(ctx, images, c, nowMs, scale)`; `src/main.js` le pasa `SCALE`. Usa `getFrame` y `frameIndexAt` de `spritesheet.js` y ancla por `shadow`. En `src/main.js`, cargar las hojas `CHARIZARD.idle|hurt|sleep.src.anim` y arrancar un loop con `requestAnimationFrame`. Prueba manual: dos Charizard en `idle` mirándose en `PLAYER_FEET` y `RIVAL_FEET`.
 3. Crear `src/battle.js` con `createCombatant`, `currentAnim` y `hpColor`. Agregar `drawHpBar` en `src/render.js`: Jugador arriba a la izquierda, Rival arriba a la derecha. Prueba manual: ambas barras verdes con `PS 100/100`.
-4. Agregar `applyDamage(c, amount, nowMs)` en `src/battle.js`: resta, recorta a 0, guarda `hurtStartMs` y no hace nada si ya está derrotado. En `src/main.js`, escuchar `keydown` por `event.code` (`KeyA` → player, `KeyL` → rival) e ignorar `event.repeat`. Comentar en el código que son controles de prueba temporales que reemplaza el spec 02. Agregar `drawLegend`. Prueba manual: `A` baja al Jugador a `PS 90/100` y reproduce `hurt`.
+4. Agregar `applyDamage(c, amount, nowMs)` en `src/battle.js`: resta, recorta a 0, guarda `hurtStartMs` y no hace nada si ya está derrotado. En `src/main.js`, escuchar `keydown` por `event.code` (`KeyA` → player, `KeyL` → rival) e ignorar `event.repeat`. Comentar en el código que son controles de prueba que se mantendran en el spec 2 junto al menú de ataque. Agregar `drawLegend`. Prueba manual: `A` baja al Jugador a `PS 90/100` y reproduce `hurt`.
 5. Marcar `defeated` al llegar a 0 PS. En `src/render.js`, dibujar `sleep` con `globalAlpha` 0.5 y agregar `drawDefeatedLabel` con `DERROTADO` sobre el Charizard. Prueba manual: 10 pulsaciones de `A` dejan al Jugador derrotado.
 
 ## Criterios de aceptación
@@ -105,7 +105,7 @@ Convenciones:
 - **Sí:** separar `src/battle.js` (lógica pura, sin canvas) de `src/render.js` (dibujo). La lógica de vida queda lista para el menú de ataques del spec 02.
 - **Sí:** 100 PS y 10 de daño fijo. Determinista y fácil de verificar.
 - **No:** daño aleatorio. Hace la prueba impredecible.
-- **Sí:** teclas `A` y `L` como controles de prueba temporales. El spec 02 las reemplaza por el menú de ataques.
+- **Sí:** teclas `A` y `L` como controles de prueba. El spec 02 las mantiene junto a el menú de ataques.
 - **No:** click sobre el Charizard ni botones HTML. Las teclas son lo más simple para probar.
 - **Sí:** detectar la tecla física con `event.code`. Funciona igual con Bloq Mayús.
 - **Sí:** ignorar `event.repeat`. Una pulsación equivale a un golpe.
