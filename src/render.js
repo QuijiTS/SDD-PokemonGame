@@ -15,8 +15,13 @@ export function drawBackground(ctx, image, bg) {
 // Dibuja a Charizard con los pies en c.feet, anclado por frame.shadow.
 export function drawCharizard(ctx, images, c, nowMs, scale) {
   const anim = currentAnim(c, nowMs);
-  const elapsed = anim === 'hurt' ? nowMs - c.hurtStartMs : nowMs;
-  const f = getFrame(anim, c.dir, frameIndexAt(anim, elapsed, anim !== 'hurt'));
+  // hurt y la animación de ataque corren desde su inicio y no se repiten en bucle.
+  const attacking = c.attack !== null && anim === c.attack.anim;
+  let elapsed = nowMs;
+  if (attacking) elapsed = nowMs - c.attack.startMs;
+  else if (anim === 'hurt') elapsed = nowMs - c.hurtStartMs;
+  const loop = !attacking && anim !== 'hurt';
+  const f = getFrame(anim, c.dir, frameIndexAt(anim, elapsed, loop));
   const dx = c.feet.x - f.shadow.x * scale;
   const dy = c.feet.y - f.shadow.y * scale;
   ctx.save();
