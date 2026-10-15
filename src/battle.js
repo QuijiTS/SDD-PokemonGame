@@ -4,7 +4,7 @@ export const MOVES = [
   { name: 'Arañazo',      damage: 10, maxPp: 15, anim: 'jab' },
   { name: 'Ascuas',       damage: 15, maxPp: 10, anim: 'charge' },
   { name: 'Garra Dragón', damage: 20, maxPp: 8,  anim: 'swing' },
-  { name: 'Lanzallamas',  damage: 30, maxPp: 5,  anim: 'shoot' },
+  { name: 'Lanzallamas',  damage: 30, maxPp: 3,  anim: 'shoot' },
 ];
 
 export function createCombatant({ id, dir, feet, maxHp, moves = [] }) {
