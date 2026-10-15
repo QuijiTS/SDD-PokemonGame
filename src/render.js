@@ -45,6 +45,33 @@ export function drawDefeatedLabel(ctx, c, scale) {
   ctx.fillText('DERROTADO', c.feet.x, top - 8);
 }
 
+const MENU_CELL_W = 280;
+const MENU_CELL_H = 36;
+const MENU_PAD = 12;
+
+// Grilla 2×2 abajo al centro, encima de la leyenda. Ataques sin PP en gris.
+export function drawMoveMenu(ctx, c) {
+  const w = MENU_CELL_W * 2 + MENU_PAD * 3;
+  const h = MENU_CELL_H * 2 + MENU_PAD * 3;
+  const x = (ctx.canvas.width - w) / 2;
+  const y = ctx.canvas.height - 60 - h;  // la leyenda ocupa los últimos 56 px
+
+  ctx.fillStyle = 'rgba(20, 20, 30, 0.8)';
+  ctx.fillRect(x, y, w, h);
+
+  ctx.font = 'bold 20px sans-serif';
+  ctx.textBaseline = 'middle';
+  ctx.textAlign = 'left';
+  c.moves.forEach((m, i) => {
+    const cellX = x + MENU_PAD + (i % 2) * (MENU_CELL_W + MENU_PAD);
+    const cellY = y + MENU_PAD + Math.floor(i / 2) * (MENU_CELL_H + MENU_PAD);
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.08)';
+    ctx.fillRect(cellX, cellY, MENU_CELL_W, MENU_CELL_H);
+    ctx.fillStyle = m.pp > 0 ? '#fff' : '#777';
+    ctx.fillText(`${i + 1} ${m.name}  PP ${m.pp}/${m.maxPp}`, cellX + 12, cellY + MENU_CELL_H / 2);
+  });
+}
+
 export function drawLegend(ctx) {
   const text = 'A: dañar al Jugador · L: dañar al Rival';
   ctx.font = '18px sans-serif';

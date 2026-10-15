@@ -1,5 +1,5 @@
 import { BACKGROUNDS, CHARIZARD } from '../spritesheet.js';
-import { drawBackground, drawCharizard, drawDefeatedLabel, drawHpBar, drawLegend } from './render.js';
+import { drawBackground, drawCharizard, drawDefeatedLabel, drawHpBar, drawLegend, drawMoveMenu } from './render.js';
 import { createCombatant, applyDamage, MOVES, useMove, updateAttack } from './battle.js';
 
 const SCALE = 4;
@@ -59,6 +59,7 @@ function frame(nowMs) {
   drawDefeatedLabel(ctx, rival, SCALE);
   drawHpBar(ctx, player);
   drawHpBar(ctx, rival);
+  drawMoveMenu(ctx, player);
   drawLegend(ctx);
   requestAnimationFrame(frame);
 }
