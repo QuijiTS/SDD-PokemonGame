@@ -1,6 +1,6 @@
 # SPEC 02 — Menú de ataques con PP
 
-> **Estado:** Aprobado
+> **Estado:** Implementado
 > **Depende de:** SPEC 01
 > **Fecha:** 2026-10-15
 > **Objetivo:** Permitir que el Jugador dañe al Rival eligiendo con las teclas 1–4 entre cuatro ataques con daño fijo y PP limitados.
